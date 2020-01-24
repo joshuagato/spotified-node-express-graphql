@@ -81,7 +81,7 @@ module.exports = {
 
         // If user does not exist, throw an error
         if(!user) {
-            const error = new Error('Check Username or password');
+            const error = new Error('Check Username or Password');
             error.statusCode = 401;
             throw error;
         }
@@ -91,7 +91,7 @@ module.exports = {
 
         // Throw an error if the passwords mismatch
         if(!isEqual) {
-            const error = new Error('Check Username or password');
+            const error = new Error('Check Username or Password');
             error.statusCode = 401;
             throw error;
         }
@@ -292,20 +292,24 @@ module.exports = {
 
             await user.save();
 
-            const sent = await transporter.sendMail({
-                to: userEmail,
-                from: 'no-reply@slotify.com',
-                subject: 'Password Reset',
-                html: `
-                    <p>You requested for a password reset</p>
-                    <p>Click this <a href="http://localhost:3000/reset-pw/${token}">
-                        <b style="padding: 0.4rem 1.7rem; background-color: #413e3e; color: #fff; border-radius: 1rem;">
-                        LINK</b></a> to set a new password.</p>
-                `
-            });
-            console.log("SENT", sent);  //{ message: 'success' }
-            if(!sent) {
-                console.log("GAHAHAHAHAHAHA", userEmail);
+            try {
+                const sent = await transporter.sendMail({
+                    to: userEmail,
+                    from: 'no-reply@slotify.com',
+                    subject: 'Password Reset',
+                    html: `
+                        <p>You requested for a password reset</p>
+                        <p>Click this <a href="http://localhost:3000/reset-pw/${token}">
+                            <b style="padding: 0.4rem 1.7rem; background-color: #413e3e; color: #fff; border-radius: 1rem;">
+                            LINK</b></a> to set a new password.</p>
+                    `
+                });
+            }
+            catch(error) {
+                // const error = new Error('Something was wrong somewhere.');
+                error.message = 'Please kindly check your internet connection'
+                error.statusCode = 401;
+                throw error;
             }
 
             return true;
