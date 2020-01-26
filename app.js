@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+
+const expressStatic = require("express-static-search");
 
 const sequelize = require('./util/sequelizedb');
 const graphqlHttp  = require('express-graphql');
@@ -11,19 +14,27 @@ const auth = require('./middleware/auth');
 // Initializing express
 const app = express();
 
+// Allowing Cross Origin Resource Sharing
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     // res.setHeader('Access-Control-Allow-Headers', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     if(req.method === 'OPTIONS') {
         return res.sendStatus(200);
     }
     next();
 });
 
+
+// Making the images and artwork folder accessible
+app.use('/music', express.static(path.join(__dirname, 'assets', 'music')));
+app.use('/artwork', express.static(path.join(__dirname, 'assets', 'artwork')));
+
+
 // Initializing the auth Middleware
 app.use(auth);
+
 
 // Middleware for setting up the graphql endpoint
 app.use('/graphql', graphqlHttp({

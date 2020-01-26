@@ -209,6 +209,24 @@ module.exports = {
         }
     },
 
+    // The resolver(method) for fetching all songs in the database
+    allSongs: async function(_, req) {
+
+        const songs =  await Song.findAll({ order: Sequelize.literal('rand()') }); //Returns an array of objects [{}, {}]
+
+        if(!songs) {
+            const error = new Error('No songs found');
+            error.statusCode = 404;
+            throw error;
+        }
+        else {
+            const returnedSongs = songs.map(result => result.dataValues);  // [{}, {}, {}]
+
+            // use curly-braces {} in the return statement when the schema definition points to a type definition(which should be an object)
+            return returnedSongs;
+        }
+    },
+
 
 
     // The resolver(method) for fetching a single artist

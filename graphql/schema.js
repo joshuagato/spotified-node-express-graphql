@@ -67,6 +67,7 @@ module.exports = buildSchema(`
         album(albumId: Int!): Album!
         albumSongs(albumId: Int!): [Song]!
         numOfSongs(albumId: Int!): Int!
+        allSongs: [Song]!
         artist(artistId: Int!): Artist!
         getUserDetails(userId: Int!): User!
     }
