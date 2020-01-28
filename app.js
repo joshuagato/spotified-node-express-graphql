@@ -1,6 +1,9 @@
+const fs = require('fs');
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 const expressStatic = require("express-static-search");
 
@@ -13,6 +16,24 @@ const auth = require('./middleware/auth');
 
 // Initializing express
 const app = express();
+
+
+// Function for writing our access log to the file system
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'),
+    { flags: 'a' }
+);
+
+
+// Initializing the helmet middleware for securing our Request/Response headers
+app.use(helmet());
+
+// Initializing the compression middleware for ensuring lean file sizes
+app.use(compression());
+
+// Initializing the morgan middleware for Request data logging
+app.use(morgan('combine', { stream: accessLogStream }));
+
 
 // Allowing Cross Origin Resource Sharing
 app.use((req, res, next) => {
@@ -63,9 +84,13 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message, data: data });
 });
 
+// console.log("SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
+// console.log("PORT", process.env.PORT);
+// console.log("NODE_ENV", process.env.NODE_ENV);
+
 
 // Connecting the mysql database using sequelize
 sequelize.sync().then(result => {
-    app.listen(4004);
+    app.listen(process.env.PORT || 4004);
     // console.log(result);
 }).catch(err => console.log(err));
