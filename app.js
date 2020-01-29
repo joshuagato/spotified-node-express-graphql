@@ -28,8 +28,10 @@ const accessLogStream = fs.createWriteStream(
 // Initializing the helmet middleware for securing our Request/Response headers
 app.use(helmet());
 
+
 // Initializing the compression middleware for ensuring lean file sizes
 app.use(compression());
+
 
 // Initializing the morgan middleware for Request data logging
 app.use(morgan('combine', { stream: accessLogStream }));
