@@ -15,7 +15,7 @@ const Artist = require('../models/artist');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: "SG.TKQKmfxzScKf2o-cbx3UNg.TCHIfe_ICf-NQCCmxXhrmsxm-PInsHfXvunzQNrBFfY"
+        api_key: process.env.SENDGRID_API_KEY
     }
 }));
 
