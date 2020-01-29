@@ -1,9 +1,0 @@
-{
-    "env": {
-        "SENDGRID_API_KEY": "SG.TKQKmfxzScKf2o-cbx3UNg.TCHIfe_ICf-NQCCmxXhrmsxm-PInsHfXvunzQNrBFfY",
-        "HOST_NAME": "localhost",
-        "DB_NAME": "spotified",
-        "DB_USERNAME": "root",
-        "DB_PASSWORD": ""
-    }
-}
