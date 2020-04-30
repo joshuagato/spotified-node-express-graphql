@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
@@ -20,8 +21,8 @@ const app = express();
 
 // Function for writing our access log to the file system
 const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, 'access.log'),
-    { flags: 'a' }
+  path.join(__dirname, 'access.log'),
+  { flags: 'a' }
 );
 
 
@@ -39,18 +40,18 @@ app.use(morgan('combine', { stream: accessLogStream }));
 
 // Allowing Cross Origin Resource Sharing
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-    // res.setHeader('Access-Control-Allow-Headers', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    if(req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  // res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if(req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
 });
 
 
-// Making the images and artwork folder accessible
+// Making the music and artwork folder accessible
 app.use('/music', express.static(path.join(__dirname, 'assets', 'music')));
 app.use('/artwork', express.static(path.join(__dirname, 'assets', 'artwork')));
 
@@ -61,29 +62,29 @@ app.use(auth);
 
 // Middleware for setting up the graphql endpoint
 app.use('/graphql', graphqlHttp({
-    schema: graphqlSchema,
-    rootValue: graphqlResolver,
-    graphiql: true,
-    formatError(err) {
-        if(!err.originalError) {
-          return err;
-        }
-        console.log(err);
-        const data = err.originalError.data;
-        const message = err.message || 'An error occurred.';
-        const code = err.originalError.code || 500;
-        return { message: message, status: code, data: data };
+  schema: graphqlSchema,
+  rootValue: graphqlResolver,
+  graphiql: true,
+  formatError(err) {
+    if(!err.originalError) {
+      return err;
+    }
+    console.log(err);
+    const data = err.originalError.data;
+    const message = err.message || 'An error occurred.';
+    const code = err.originalError.code || 500;
+    return { message: message, status: code, data: data };
     }
 }));
 
 
 // Middleware for handling errors
 app.use((error, req, res, next) => {
-    console.log(error);
-    const status = error.statusCode || 500;
-    const message = error.message;
-    const data = error.data;
-    res.status(status).json({ message: message, data: data });
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
 });
 
 // console.log("SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
@@ -93,6 +94,6 @@ app.use((error, req, res, next) => {
 
 // Connecting the mysql database using sequelize
 sequelize.sync().then(result => {
-    app.listen(process.env.PORT || 4004);
-    // console.log(result);
+  app.listen(process.env.PORT || 4004);
+  // console.log(result);
 }).catch(err => console.log(err));
