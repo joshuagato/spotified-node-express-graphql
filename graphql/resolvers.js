@@ -238,7 +238,7 @@ module.exports = {
       throw error;
     } else {
       const user = await User.findOne({ where: { id: req.userId } });
-      if(!user) {
+      if (!user) {
         const error = new Error('Please login to update your details.');
         error.statusCode = 401;
         throw error;
