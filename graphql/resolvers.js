@@ -38,8 +38,7 @@ module.exports = {
       // error.data = errors;
       error.statusCode = 422;
       throw error;
-    }
-    else {
+    } else {
       // Check for an account already assoicated with the email the user submitted
       const existingUser = await User.findOne({ where: { email: userInput.email } });
 
@@ -99,7 +98,7 @@ module.exports = {
       { userId: user.id, email: user.email },
       'somesupersecretivesecret', { expiresIn: '1hr' }
     );
-    
+
     return { userId: user.id, token: token };
   },
 
@@ -135,9 +134,6 @@ module.exports = {
       }
     }
   },
-
-
-
 
   // The resolver(method) for fetching albums
   albums: async function(_, req) {
@@ -182,35 +178,33 @@ module.exports = {
     }
   },
 
-    // The resolver(method) for fetching the number of songs peculiar to an album
-    numOfSongs: async function({ albumId }, req) {
-      const numOfSongs = await Song.count({ where: { album: albumId } });
+  // The resolver(method) for fetching the number of songs peculiar to an album
+  numOfSongs: async function({ albumId }, req) {
+    const numOfSongs = await Song.count({ where: { album: albumId } });
 
-      if (!numOfSongs) {
-        const error = new Error('No songs found');
-        error.statusCode = 404;
-        throw error;
+    if (!numOfSongs) {
+      const error = new Error('No songs found');
+      error.statusCode = 404;
+      throw error;
 
-      } else return numOfSongs;
-    },
+    } else return numOfSongs;
+  },
 
-    // The resolver(method) for fetching all songs in the database
-    allSongs: async function(_, req) {
-    const songs =  await Song.findAll({ order: Sequelize.literal('rand()') }); //Returns an array of objects [{}, {}]
+  // The resolver(method) for fetching all songs in the database
+  allSongs: async function(_, req) {
+  const songs =  await Song.findAll({ order: Sequelize.literal('rand()') }); //Returns an array of objects [{}, {}]
 
-      if (!songs) {
-        const error = new Error('No songs found');
-        error.statusCode = 404;
-        throw error;
-      } else {
-        const returnedSongs = songs.map(result => result.dataValues);  // [{}, {}, {}]
+    if (!songs) {
+      const error = new Error('No songs found');
+      error.statusCode = 404;
+      throw error;
+    } else {
+      const returnedSongs = songs.map(result => result.dataValues);  // [{}, {}, {}]
 
-        // use curly-braces {} in the return statement when the schema definition points to a type definition(which should be an object)
-        return returnedSongs;
-      }
-    },
-
-
+      // use curly-braces {} in the return statement when the schema definition points to a type definition(which should be an object)
+      return returnedSongs;
+    }
+  },
 
   // The resolver(method) for fetching a single artist
   artist: async function({ artistId }, req) {
@@ -277,7 +271,6 @@ module.exports = {
     } else {
       user.resetToken = token;
       user.resetTokenExpiration = Date.now() + 3600000;
-
       await user.save();
 
       try {
