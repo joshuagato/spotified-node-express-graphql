@@ -14,10 +14,8 @@ const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
 const auth = require('./middleware/auth');
 
-
 // Initializing express
 const app = express();
-
 
 // Function for writing our access log to the file system
 const accessLogStream = fs.createWriteStream(
@@ -25,18 +23,14 @@ const accessLogStream = fs.createWriteStream(
   { flags: 'a' }
 );
 
-
 // Initializing the helmet middleware for securing our Request/Response headers
 app.use(helmet());
-
 
 // Initializing the compression middleware for ensuring lean file sizes
 app.use(compression());
 
-
 // Initializing the morgan middleware for Request data logging
 app.use(morgan('combine', { stream: accessLogStream }));
-
 
 // Allowing Cross Origin Resource Sharing
 app.use((req, res, next) => {
@@ -50,15 +44,12 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // Making the music and artwork folder accessible
 app.use('/music', express.static(path.join(__dirname, 'assets', 'music')));
 app.use('/artwork', express.static(path.join(__dirname, 'assets', 'artwork')));
 
-
 // Initializing the auth Middleware
 app.use(auth);
-
 
 // Middleware for setting up the graphql endpoint
 app.use('/graphql', graphqlHttp({
@@ -69,7 +60,7 @@ app.use('/graphql', graphqlHttp({
     if(!err.originalError) {
       return err;
     }
-    console.log(err);
+    // console.log(err);
     const data = err.originalError.data;
     const message = err.message || 'An error occurred.';
     const code = err.originalError.code || 500;
@@ -77,20 +68,14 @@ app.use('/graphql', graphqlHttp({
     }
 }));
 
-
 // Middleware for handling errors
 app.use((error, req, res, next) => {
-  console.log(error);
+  // console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
-
-// console.log("SENDGRID_API_KEY", process.env.SENDGRID_API_KEY);
-// console.log("PORT", process.env.PORT);
-// console.log("NODE_ENV", process.env.NODE_ENV);
-
 
 // Connecting the mysql database using sequelize
 sequelize.sync().then(result => {
