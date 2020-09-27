@@ -136,7 +136,8 @@ module.exports = {
 
   // The resolver(method) for fetching albums
   albums: async function(_, req) {
-    const albums =  await Album.findAll({ order: Sequelize.literal('rand()'), limit: 10 }); //Returns an array of objects [{}, {}]
+    // const albums =  await Album.findAll({ order: Sequelize.literal('rand()'), limit: 10 }); //Returns an array of objects [{}, {}]
+    const albums =  await Album.findAll({ order: Sequelize.literal('random()'), limit: 10 }); //Returns an array of objects [{}, {}]
 
     if (!albums) {
       const error = new Error('No albums found');
@@ -192,7 +193,8 @@ module.exports = {
 
   // The resolver(method) for fetching all songs in the database
   allSongs: async function(_, req) {
-  const songs =  await Song.findAll({ order: Sequelize.literal('rand()') }); //Returns an array of objects [{}, {}]
+  // const songs =  await Song.findAll({ order: Sequelize.literal('rand()') }); //Returns an array of objects [{}, {}]
+  const songs =  await Song.findAll({ order: Sequelize.literal('random()') }); //Returns an array of objects [{}, {}]
 
     if (!songs) {
       const error = new Error('No songs found');
