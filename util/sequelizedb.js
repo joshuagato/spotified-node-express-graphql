@@ -30,6 +30,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     }
   }
 });
+
 // const sequelize = new Sequelize('postgres://postgres:ITCstd3712@127.0.0.1:5432/spotified');
 // const sequelize = new Sequelize('postgres://postgres:ITCstd3712@localhost:5432/spotified');
 // const sequelize = new Sequelize('spotified', 'postgres', 'ITCstd3712', {
@@ -39,9 +40,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 // });
 
 // const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+//   port: process.env.PORT2,
+//   host: process.env.HOST_NAME,
+//   protocol: 'postgres',
 //   dialect: 'postgres',
-//   port: process.env.PORT,
-//   host: process.env.HOST_NAME
 // });
 
 // const sequelize = new Sequelize(process.env.DB_NAME2, process.env.DB_USERNAME2, process.env.DB_PASSWORD2, {
