@@ -32,7 +32,7 @@ const Song = sequelize.define('song', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  albumOrder: {
+  album_order: {
     type: Sequelize.INTEGER,
     allowNull: false
   },

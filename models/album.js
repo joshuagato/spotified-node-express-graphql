@@ -20,7 +20,7 @@ const Album = sequelize.define('album', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
-  artworkPath: {
+  artwork_path: {
     type: Sequelize.STRING,
     allowNull: false
   }

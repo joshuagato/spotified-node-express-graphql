@@ -7,8 +7,8 @@ module.exports = buildSchema(`
     lastname: String!
     email: String!
     password: String!
-    createdAt: String!
-    updatedAt: String!
+    created_at: String!
+    updated_at: String!
   }
   type AuthData {
     userId: String!
@@ -19,7 +19,7 @@ module.exports = buildSchema(`
     title: String!
     artist: Int!
     genre: Int!
-    artworkPath: String!
+    artwork_path: String!
   }
   type Song {
     id: ID!
@@ -29,7 +29,7 @@ module.exports = buildSchema(`
     genre: Int!
     duration: String!
     path: String!
-    albumOrder: Int!
+    album_order: Int!
     plays: Int!
   }
   type Artist {

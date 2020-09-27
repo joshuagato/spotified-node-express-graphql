@@ -24,14 +24,19 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  resetToken: {
+  reset_token: {
     type: Sequelize.STRING,
     allowNull: true
   },
-  resetTokenExpiration: {
+  reset_token_expiration: {
     type: Sequelize.STRING,
     allowNull: true
-  }
+  },
+  created_at: Sequelize.DATE,
+  updated_at: Sequelize.DATE
+}, {
+  updatedAt: 'created_at',
+  createdAt: 'updated_at'
 });
 
 module.exports = User;

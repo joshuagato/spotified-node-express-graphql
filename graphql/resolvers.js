@@ -65,8 +65,8 @@ module.exports = {
 
     return {
       ...createdUser.dataValues,
-      createdAt: createdUser.dataValues.createdAt.toISOString(),
-      updatedAt: createdUser.dataValues.updatedAt.toISOString()
+      created_at: createdUser.dataValues.created_at.toISOString(),
+      updated_at: createdUser.dataValues.updated_at.toISOString()
     };
   },
 
@@ -273,8 +273,8 @@ module.exports = {
       throw error;
     }
 
-    user.resetToken = token;
-    user.resetTokenExpiration = Date.now() + 3600000;
+    user.reset_token = token;
+    user.reset_token_expiration = Date.now() + 3600000;
     await user.save();
       
     try {
@@ -302,7 +302,7 @@ module.exports = {
 
   // The resolver(method) for resetting the password
   passwordResetExecute: async function({ pwdInput }, req) {
-    const user = await User.findOne({ where: { [Op.and]: [{ resetToken: pwdInput.token }, { resetTokenExpiration: { [Op.gt]: Date.now() } }] } });
+    const user = await User.findOne({ where: { [Op.and]: [{ reset_token: pwdInput.token }, { reset_token_expiration: { [Op.gt]: Date.now() } }] } });
 
     if (!user) {
       const error = new Error('Something went wrong.');
@@ -310,18 +310,18 @@ module.exports = {
       throw error;
     }
 
-    // console.log("COMPARE", user.dataValues.resetTokenExpiration > Date.now());
-    // console.log("COMPARE", user.dataValues.resetTokenExpiration > new Date());
+    // console.log("COMPARE", user.dataValues.reset_token_expiration > Date.now());
+    // console.log("COMPARE", user.dataValues.reset_token_expiration > new Date());
 
     const hashedPw = await bcrypt.hash(pwdInput.newPassword, 12);
     user.password = hashedPw;
-    user.resetToken = null;
-    user.resetTokenExpiration = null;
+    user.reset_token = null;
+    user.reset_token_expiration = null;
     await user.save();
 
     return true;
   }
 };
 // return { posts: posts.map(p => {
-//     return { ...p._doc, _id: p._id.toString(), createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString() };
+//     return { ...p._doc, _id: p._id.toString(), created_at: p.created_at.toISOString(), updated_at: p.updated_at.toISOString() };
 // }), totalPosts: totalPosts };
