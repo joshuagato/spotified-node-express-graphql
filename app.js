@@ -38,9 +38,8 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
   // res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if(req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
+
+  if(req.method === 'OPTIONS') return res.sendStatus(200);
   next();
 });
 
@@ -58,18 +57,16 @@ app.use('/graphql', graphqlHttp({
   graphiql: true,
   formatError(err) {
     if (!err.originalError) return err;
-    // console.log(err);
     
     const data = err.originalError.data;
     const message = err.message || 'An error occurred.';
     const code = err.originalError.code || 500;
-    return { message: message, status: code, data: data };
-    }
+    return {message: message, status: code, data: data};
+  }
 }));
 
 // Middleware for handling errors
 app.use((error, req, res, next) => {
-  // console.log(error);
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data;
@@ -79,5 +76,4 @@ app.use((error, req, res, next) => {
 // Connecting the mysql database using sequelize
 sequelize.sync().then(result => {
   app.listen(process.env.PORT || 4004);
-  // console.log(result);
 }).catch(err => console.log(err));
