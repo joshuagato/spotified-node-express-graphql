@@ -1,13 +1,16 @@
 {
-  "name": "node-complete-guide",
-  "version": "1.0.0",
-  "description": "Complete Node..js Guide",
+  "name": "Spotified-Backend",
+  "version": "1.0.1",
+  "engines": {
+    "node": ">=13.14.0 <15"
+  },
+  "description": "Backend code for Spotify Clone",
   "main": "app(original).js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "start-server": "node app.js",
-    "serve": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "author": "Joshua Gato",
   "license": "ISC",
