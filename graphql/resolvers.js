@@ -7,17 +7,22 @@ const { Op } = require('sequelize')
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+console.log('SENDGRID_API_KEY', process.env.SENDGRID_API_KEY);
+
 
 const User = require('../models/user');
 const Album = require('../models/album');
 const Song = require('../models/song');
 const Artist = require('../models/artist');
 
-const transporter = nodemailer.createTransport(sendgridTransport({
-  auth: {
-    api_key: process.env.SENDGRID_API_KEY
-  }
-}));
+// const transporter = nodemailer.createTransport(sendgridTransport({
+//   auth: {
+//     api_key: process.env.SENDGRID_API_KEY
+//   }
+// }));
 
 module.exports = {
 
@@ -280,7 +285,8 @@ module.exports = {
     await user.save();
       
     try {
-      const sent = await transporter.sendMail({
+      // const sent = await transporter.sendMail({
+      const sent = sgMail.send({
         to: userEmail,
         from: 'no-reply@spotified.com',
         subject: 'Password Reset',
@@ -290,6 +296,11 @@ module.exports = {
             <b style="padding: 0.4rem 1.7rem; background-color: #413e3e; color: #fff; border-radius: 1rem;">
               LINK</b></a> to set a new password.</p>
         `
+      }).then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
       });
     } catch(error) {
       // const error = new Error('Something was wrong somewhere.');
