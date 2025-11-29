@@ -5,6 +5,7 @@ const path = require('path');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const expressStatic = require("express-static-search");
 
@@ -16,6 +17,9 @@ const auth = require('./middleware/auth');
 
 // Initializing express
 const app = express();
+
+// Enable CORS for all Origins
+app.use(cors())
 
 // Function for writing our access log to the file system
 const accessLogStream = fs.createWriteStream(
