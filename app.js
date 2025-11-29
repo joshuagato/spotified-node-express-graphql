@@ -75,5 +75,6 @@ app.use((error, req, res, next) => {
 
 // Connecting the mysql database using sequelize
 sequelize.sync().then(result => {
-  app.listen(process.env.PORT || 4004);
+  app.listen(4004);
+  console.log('Running on Port: ', 4004);
 }).catch(err => console.log(err));
