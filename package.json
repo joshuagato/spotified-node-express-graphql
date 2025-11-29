@@ -2,7 +2,7 @@
   "name": "Spotified-Backend",
   "version": "1.0.1",
   "engines": {
-    "node": ">=13.14.0 <15"
+    "node": "24.11.1"
   },
   "description": "Backend code for Spotify Clone",
   "main": "app(original).js",
