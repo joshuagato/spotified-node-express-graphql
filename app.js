@@ -19,13 +19,14 @@ const auth = require("./middleware/auth");
 const app = express();
 
 // Enable CORS for all Origins
-// app.use(cors())
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN,
-        credentials: true, // allow frontend to send cookies
-    })
-);
+app.use(cors());
+
+// app.use(
+//     cors({
+//         origin: process.env.CORS_ORIGIN,
+//         credentials: true, // allow frontend to send cookies
+//     })
+// );
 
 // Function for writing our access log to the file system
 const accessLogStream = fs.createWriteStream(
