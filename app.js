@@ -59,6 +59,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/", (req, res) =>
+    res.status(200).json({ req: req.headers.host, message: "Running" })
+);
+
 // Making the music and artwork folder accessible
 app.use("/music", express.static(path.join(__dirname, "assets", "music")));
 app.use("/artwork", express.static(path.join(__dirname, "assets", "artwork")));
